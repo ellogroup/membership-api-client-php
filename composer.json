@@ -1,0 +1,14 @@
+{
+    "name": "dcg/membership-client",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MembershipClient\\": "src"
+        }
+    }
+}

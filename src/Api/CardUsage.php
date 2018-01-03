@@ -39,6 +39,16 @@ class CardUsage
         return $out;
     }
 
+    public function create(Usage $usage)
+    {
+        $url = sprintf("/membership/%s/cardUsage", $this->membershipId);
+        $res = $this->http->post(
+            $url,
+            $usage
+        );
+        return $this->factory($res);
+    }
+
     private function formatResponse(array $response)
     {
         $out = array_map(

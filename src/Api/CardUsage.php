@@ -2,6 +2,7 @@
 
 namespace MembershipClient\Api;
 
+use MembershipClient\Model\CardUsageFactory;
 use MembershipClient\Model\CardUsage as Usage;
 
 class CardUsage
@@ -11,9 +12,11 @@ class CardUsage
     private $id;
 
     public function __construct(
-        HttpClient $http
+        HttpClient $http,
+        CardUsageFactory $factory
     ) {
         $this->http = $http;
+        $this->factory = $factory;
     }
 
     public function setId($id)
@@ -32,10 +35,10 @@ class CardUsage
         if ($this->id) {
             $url = sprintf("%s/%s", $url, $this->id);
             $response = $this->http->get($url);
-            return $this->factory($response);
+            return $this->factory->build($response);
         }
         $response = $this->http->get($url);
-        $out = $this->formatResponse($response);
+        $out = $this->factory->fromResponse($response);
         return $out;
     }
 
@@ -46,33 +49,6 @@ class CardUsage
             $url,
             json_encode($usage)
         );
-        return $this->factory($res);
-    }
-
-    private function formatResponse(array $response)
-    {
-        $out = array_map(
-            function ($usage) {
-                return $this->factory($usage);
-            },
-            $response
-        );
-        return $out;
-    }
-
-    private function factory(array $usage)
-    {
-        $usage['id'] = $usage['id'] ?? "";
-        $usage['membershipId'] = $usage['membershipId'] ?? "";
-        $usage['restaurantId'] = $usage['restaurantId'] ?? "";
-        $usage['platform'] = $usage['platform'] ?? "";
-        $usage['usageTime'] = $usage['usageTime'] ?? "";
-        return new Usage(
-            $usage['id'],
-            $usage['membershipId'],
-            $usage['restaurantId'],
-            $usage['platform'],
-            $usage['usageTime']
-        );
+        return $this->factory->build($res);
     }
 }

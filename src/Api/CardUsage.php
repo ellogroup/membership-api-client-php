@@ -44,7 +44,7 @@ class CardUsage
         $url = sprintf("/membership/%s/cardUsage", $this->membershipId);
         $res = $this->http->post(
             $url,
-            $usage
+            json_encode($usage)
         );
         return $this->factory($res);
     }

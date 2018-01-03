@@ -25,13 +25,15 @@ class HttpClient
         return json_decode((string) $res->getBody(), true);
     }
 
-    public function post($url, $body)
-    {
+    public function post(
+        string $url,
+        string $body
+    ) {
         try {
             $res = $this->http->request(
                 "POST",
                 $url,
-                ['body' => json_encode($body)]
+                ['body' => $body]
             );
             return json_decode((string) $res->getBody(), true);
         } catch (\Exception $e) {

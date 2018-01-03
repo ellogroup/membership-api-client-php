@@ -8,6 +8,7 @@ use MembershipClient\Api\Membership;
 use MembershipClient\Api\CardUsage;
 use MembershipClient\Api\Customer;
 use MembershipClient\Api\HttpClient;
+use MembershipClient\Api\JwtToken;
 
 class Client
 {
@@ -22,22 +23,20 @@ class Client
     }
 
     public static function init(
-        string $baseUrl
+        string $baseUrl,
+        string $privateKey
     ) {
         $guzzle = new Guzzle([
             'base_uri' => $baseUrl,
             "verify" => false
         ]);
-        $http = new HttpClient($guzzle);
-
-        $cancellationReasons = new CancellationReasons($http);
+        $token = new JwtToken($privateKey, 1);
+        $http = new HttpClient($guzzle, $token);
         $cardUsage = new CardUsage($http);
-        $customer = new Customer($http);
-        $membership = new Membership($cardUsage);
         return new Client(
-            $cancellationReasons,
-            $membership,
-            $customer
+            new CancellationReasons($http),
+            new Membership($cardUsage),
+            new Customer($http)
         );
     }
 

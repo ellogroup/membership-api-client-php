@@ -7,9 +7,11 @@ use GuzzleHttp\Client;
 class HttpClient
 {
     public function __construct(
-        Client $http
+        Client $http,
+        JwtToken $token
     ) {
         $this->http = $http;
+        $this->token = $token;
     }
 
     public function get(
@@ -17,7 +19,7 @@ class HttpClient
         array $query = []
     ) {
         try {
-            $res = $this->http->request("GET", $url, ['query' => $query]);
+            $res = $this->http->request("GET", $url, ['headers' => $this->getDefaultHeaders(), 'query' => $query]);
             return json_decode((string) $res->getBody(), true);
         } catch (\Exception $e) {
             $m = sprintf("failed request: %s", $e->getMessage());
@@ -30,11 +32,19 @@ class HttpClient
         string $body
     ) {
         try {
-            $res = $this->http->request("POST", $url, ['body' => $body]);
+            $res = $this->http->request("POST", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
             return json_decode((string) $res->getBody(), true);
         } catch (\Exception $e) {
             $m = sprintf("failed request: %s", $e->getMessage());
             throw new \RuntimeException($m);
         }
+    }
+
+    private function getDefaultHeaders()
+    {
+        $token = $this->token->generate();
+        return [
+            'X-Consumer-Token' => $token
+        ];
     }
 }

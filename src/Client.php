@@ -21,10 +21,11 @@ class Client
         $this->customer = $customer;
     }
 
-    public static function init()
-    {
+    public static function init(
+        string $baseUrl
+    ) {
         $guzzle = new Guzzle([
-            'base_uri' => 'https://membership.dcg.local',
+            'base_uri' => $baseUrl,
             "verify" => false
         ]);
         $http = new HttpClient($guzzle);
@@ -32,7 +33,7 @@ class Client
         $cancellationReasons = new CancellationReasons($http);
         $cardUsage = new CardUsage($http);
         $customer = new Customer($http);
-        $membership = new Membership($http, $cardUsage);
+        $membership = new Membership($cardUsage);
         return new Client(
             $cancellationReasons,
             $membership,

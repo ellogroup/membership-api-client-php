@@ -3,16 +3,20 @@
 namespace MembershipClient\Api;
 
 use MembershipClient\Model\Customer as CustomerModel;
+use MembershipClient\Model\CustomerFactory;
 
 class Customer
 {
     private $http;
     private $id;
+    private $factory;
 
     public function __construct(
-        HttpClient $http
+        HttpClient $http,
+        CustomerFactory $factory
     ) {
         $this->http = $http;
+        $this->factory = $factory;
     }
 
     public function fetch()
@@ -21,39 +25,15 @@ class Customer
         if ($this->id) {
             $url = sprintf("%s/%s", $url, $this->id);
             $response = $this->http->get($url);
-            return $this->factory($response);
+            return $this->factory->build($response);
         }
         $response = $this->http->get($url);
-        $out = $this->formatResponse($response);
+        $out = $this->factory->fromResponse($response);
         return $out;
     }
 
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    private function formatResponse(array $response)
-    {
-        $out = array_map(
-            function ($customer) {
-                return $this->factory($customer);
-            },
-            $response
-        );
-        return $out;
-    }
-
-    private function factory($customer)
-    {
-        return new CustomerModel(
-            $customer['id'],
-            $customer['title'],
-            $customer['firstName'],
-            $customer['lastName'],
-            $customer['emailAddress'],
-            $customer['phoneNumber'],
-            $customer['mobilePhone']
-        );
     }
 }

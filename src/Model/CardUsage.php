@@ -2,7 +2,7 @@
 
 namespace MembershipClient\Model;
 
-class CardUsage
+class CardUsage implements \JsonSerializable
 {
     private $id;
     private $membershipId;
@@ -22,5 +22,15 @@ class CardUsage
         $this->restaurantId = $restaurantId;
         $this->platform = $platform;
         $this->usageTime = $usageTime;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+        "membershipId" => $this->membershipId,
+        "restaurantId" => $this->restaurantId,
+        "platform" => $this->platform,
+        "usageTime" => $this->usageTime
+        ];
     }
 }

@@ -19,7 +19,7 @@ class CancellationReasons
     {
         $q = $this->parseOptions($options);
         $response = $this->http->get(self::URL, $q);
-        $out = $this->formatResponse($response);
+        $out = $this->factory($response);
         return $out;
     }
 
@@ -35,13 +35,13 @@ class CancellationReasons
         return $q;
     }
 
-    private function formatResponse(array $response)
+    private function factory(array $response)
     {
         $out = array_map(
             function ($reason) {
                 $children = [];
                 if (!empty($reason['children'])) {
-                    $children = $this->formatResponse($reason['children']);
+                    $children = $this->factory($reason['children']);
                 }
                 return new CancellationReason(
                     $reason['id'],

@@ -9,6 +9,7 @@ use MembershipClient\Api\CardUsage;
 use MembershipClient\Api\Customer;
 use MembershipClient\Api\HttpClient;
 use MembershipClient\Api\JwtToken;
+use MembershipClient\Model\CancellationReasonFactory;
 
 class Client
 {
@@ -34,7 +35,7 @@ class Client
         $http = new HttpClient($guzzle, $token);
         $cardUsage = new CardUsage($http);
         return new Client(
-            new CancellationReasons($http),
+            new CancellationReasons($http, new CancellationReasonFactory()),
             new Membership($cardUsage),
             new Customer($http)
         );

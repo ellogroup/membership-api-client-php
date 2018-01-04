@@ -27,10 +27,10 @@ class CardUsage implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-        "membershipId" => $this->membershipId,
-        "restaurantId" => $this->restaurantId,
-        "platform" => $this->platform,
-        "usageTime" => $this->usageTime
+            "membershipId" => $this->membershipId,
+            "restaurantId" => $this->restaurantId,
+            "platform" => $this->platform,
+            "usageTime" => $this->usageTime
         ];
     }
 }

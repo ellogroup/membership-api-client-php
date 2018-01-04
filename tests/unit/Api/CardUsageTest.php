@@ -1,7 +1,5 @@
 <?php
 
-namespace Api;
-
 use PHPUnit\Framework\TestCase;
 use MembershipClient\Api\CardUsage;
 use MembershipClient\Model\CardUsageFactory;
@@ -12,7 +10,7 @@ class CardUsageTest extends TestCase
 {
     public function setUp()
     {
-        $factory = new CardUsageFactory();
+        $factory = $this->createMock(CardUsageFactory::class);
         $this->http = $this->createMock(HttpClient::class);
         $this->SUT = new CardUsage($this->http, $factory);
     }

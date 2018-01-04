@@ -11,7 +11,7 @@ class CancellationReasonsTest extends TestCase
     {
         $q = ['active' => 1, 'internal' => 1];
         $http = $this->createMock(HttpClient::class);
-        $factory = new CancellationReasonFactory();
+        $factory = $this->createMock(CancellationReasonFactory::class);
         $http->expects($this->once())
             ->method('get')
             ->with('/cancellation-reason', $q)

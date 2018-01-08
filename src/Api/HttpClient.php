@@ -6,6 +6,9 @@ use GuzzleHttp\Client;
 
 class HttpClient
 {
+    private $http;
+    private $token;
+
     public function __construct(
         Client $http,
         JwtToken $token

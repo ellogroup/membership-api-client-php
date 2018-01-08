@@ -6,24 +6,24 @@ use MembershipClient\Api\CardUsage;
 
 class Membership
 {
-    private $cardUsage;
+    private $cardUsageApi;
     private $id;
 
     public function __construct(
-        CardUsage $cardUsage
+        CardUsage $cardUsageApi
     ) {
-        $this->cardUsage = $cardUsage;
+        $this->cardUsageApi = $cardUsageApi;
     }
 
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->id = $id;
     }
 
-    public function cardUsage($id = null)
+    public function cardUsage(string $id = null)
     {
-        $this->cardUsage->setMembershipId($this->id);
-        $this->cardUsage->setId($id);
-        return $this->cardUsage;
+        $this->cardUsageApi->setMembershipId($this->id);
+        $this->cardUsageApi->setId($id);
+        return $this->cardUsageApi;
     }
 }

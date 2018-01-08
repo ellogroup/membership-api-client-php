@@ -8,6 +8,7 @@ use MembershipClient\Model\CardUsage as Usage;
 class CardUsage
 {
     private $http;
+    private $factory;
     private $membershipId;
     private $id;
 

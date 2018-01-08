@@ -15,14 +15,18 @@ use MembershipClient\Model\CustomerFactory;
 
 class Client
 {
+    private $cancellationReasonsApi;
+    private $membershipApi;
+    private $customerApi;
+
     private function __construct(
-        CancellationReasons $cancellationReasons,
-        Membership $membership,
-        Customer $customer
+        CancellationReasons $cancellationReasonsApi,
+        Membership $membershipApi,
+        Customer $customerApi
     ) {
-        $this->cancellationReasons = $cancellationReasons;
-        $this->membership = $membership;
-        $this->customer = $customer;
+        $this->cancellationReasonsApi = $cancellationReasonsApi;
+        $this->membershipApi = $membershipApi;
+        $this->customerApi = $customerApi;
     }
 
     public static function init(
@@ -45,18 +49,18 @@ class Client
 
     public function cancellationReasons()
     {
-        return $this->cancellationReasons;
+        return $this->cancellationReasonsApi;
     }
 
-    public function membership($id)
+    public function membership(string $id)
     {
-        $this->membership->setId($id);
-        return $this->membership;
+        $this->membershipApi->setId($id);
+        return $this->membershipApi;
     }
 
-    public function customer($id = null)
+    public function customer(string $id = null)
     {
-        $this->customer->setId($id);
-        return $this->customer;
+        $this->customerApi->setId($id);
+        return $this->customerApi;
     }
 }

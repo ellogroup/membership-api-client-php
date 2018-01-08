@@ -19,7 +19,7 @@ class CancellationReasonFactory
         return $out;
     }
 
-    public function build($reason, $children)
+    public function build(array $reason, array $children)
     {
         return new CancellationReason(
             $reason['id'],

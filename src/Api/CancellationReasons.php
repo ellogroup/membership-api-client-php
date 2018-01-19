@@ -9,6 +9,7 @@ class CancellationReasons
 {
     const URL = "/cancellation-reason";
     private $http;
+    private $factory;
 
     public function __construct(
         HttpClient $http,

@@ -8,6 +8,9 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 
 class JwtToken
 {
+    private $privateKey;
+    private $consumerId;
+
     public function __construct(
         string $privateKey,
         int $consumerId

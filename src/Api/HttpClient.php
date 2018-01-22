@@ -43,6 +43,19 @@ class HttpClient
         }
     }
 
+    public function patch(
+        string $url,
+        string $body
+    ) {
+        try {
+            $res = $this->http->request("PATCH", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
+            return json_decode((string) $res->getBody(), true);
+        } catch (\Exception $e) {
+            $m = sprintf("failed request: %s", $e->getMessage());
+            throw new \RuntimeException($m);
+        }
+    }
+
     private function getDefaultHeaders()
     {
         $token = $this->token->generate();

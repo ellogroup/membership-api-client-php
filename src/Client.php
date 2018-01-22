@@ -42,7 +42,7 @@ class Client
         $cardUsage = new CardUsage($http, new CardUsageFactory());
         return new Client(
             new CancellationReasons($http, new CancellationReasonFactory()),
-            new Membership($cardUsage),
+            new Membership($http, $cardUsage),
             new Customer($http, new CustomerFactory())
         );
     }

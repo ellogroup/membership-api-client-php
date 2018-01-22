@@ -46,4 +46,20 @@ class HttpClientTest extends TestCase
 
         $this->SUT->post($url, $body);
     }
+
+    public function testPatchPassesConsumerToken()
+    {
+        $res = $this->createMock(Response::class);
+        $url = "example.com";
+        $body = 'test';
+
+        $this->token->method("generate")->willReturn("horse");
+        $this->http
+            ->expects($this->once())
+            ->method("request")
+            ->with("PATCH", $url, ['headers' => ['X-Consumer-Token' => 'horse'], 'body' => 'test'])
+            ->willReturn($res);
+
+        $this->SUT->patch($url, $body);
+    }
 }

@@ -7,6 +7,7 @@ use MembershipClient\Api\CardUsage;
 class Membership
 {
     private $cardUsageApi;
+    private $http;
     private $id;
 
     public function __construct(

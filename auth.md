@@ -56,3 +56,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
         return (string) $token;
     }
 ```
+
+Once you have generated and signed your JWT you are ready to send a request,
+refer to the swagger docs here https://app.swaggerhub.com/apis/the-dcg/membership-service
+and add your token to the `X-Consumer-Token` header.

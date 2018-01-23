@@ -5,6 +5,10 @@ namespace Test;
 use PHPUnit\Framework\TestCase;
 use MembershipClient\Client;
 
+/**
+ * This file is intended to allow devs to test drive the client end to end
+ * and serve as a usage example, it does not test anything other than wiring
+ */
 class ClientTest extends TestCase
 {
     public function testItWorks()
@@ -27,14 +31,28 @@ class ClientTest extends TestCase
             "file://jwtRS256.key"
         );
 
+        $cancellationDate = new \DateTimeImmutable();
+        $cancelledFrom = new \DateTimeImmutable();
+        $cancellationReasonId = "n70zqPXBaxA9RdJ4";
+        $cancellationMethod = "Phone";
+        $res = $c->membership($membershipId)->cancel(
+            $cancellationDate,
+            $cancelledFrom,
+            $cancellationReasonId,
+            $cancellationMethod
+        );
+
         $res = $c->cancellationReasons()->fetch();
         $res = $c->membership($membershipId)->cardUsage()->create($usage);
         $res = $c->membership($membershipId)->cardUsage()->fetch();
         $res = $c->membership($membershipId)->cardUsage($cardUsageId)->fetch();
-
         $res = $c->customer()->fetch();
         $res = $c->customer($customerId)->fetch();
 
+
+
+
+        // NOT YET IMPLEMENTED
         //$res = $c->membership($membershipId)->cardUsage($cardUsageId)->update();
         //$res = $c->customer()->create();
         //$res = $c->customer($id)->update();

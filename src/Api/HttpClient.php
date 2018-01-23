@@ -23,7 +23,10 @@ class HttpClient
     ) {
         try {
             $res = $this->http->request("GET", $url, ['headers' => $this->getDefaultHeaders(), 'query' => $query]);
-            return json_decode((string) $res->getBody(), true);
+            return \GuzzleHttp\json_decode((string) $res->getBody(), true);
+        } catch (\InvalidArgumentException $e) {
+            $m = sprintf("failed to decode json response: %s, %s", (string) $res->getBody(), $e->getMessage());
+            throw new \InvalidArgumentException($m);
         } catch (\Exception $e) {
             $m = sprintf("failed request: %s", $e->getMessage());
             throw new \RuntimeException($m);
@@ -36,7 +39,26 @@ class HttpClient
     ) {
         try {
             $res = $this->http->request("POST", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
-            return json_decode((string) $res->getBody(), true);
+            return \GuzzleHttp\json_decode((string) $res->getBody(), true);
+        } catch (\InvalidArgumentException $e) {
+            $m = sprintf("failed to decode json response: %s, %s", (string) $res->getBody(), $e->getMessage());
+            throw new \InvalidArgumentException($m);
+        } catch (\Exception $e) {
+            $m = sprintf("failed request: %s", $e->getMessage());
+            throw new \RuntimeException($m);
+        }
+    }
+
+    public function patch(
+        string $url,
+        string $body
+    ) {
+        try {
+            $res = $this->http->request("PATCH", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
+            return \GuzzleHttp\json_decode((string) $res->getBody(), true);
+        } catch (\InvalidArgumentException $e) {
+            $m = sprintf("failed to decode json response: %s, %s", (string) $res->getBody(), $e->getMessage());
+            throw new \InvalidArgumentException($m);
         } catch (\Exception $e) {
             $m = sprintf("failed request: %s", $e->getMessage());
             throw new \RuntimeException($m);

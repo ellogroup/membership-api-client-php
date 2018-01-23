@@ -17,7 +17,7 @@ class HttpClientTest extends TestCase
 
     public function testGetPassesConsumerToken()
     {
-        $res = $this->createMock(Response::class);
+        $res = new Response(200, [], "{}");
         $url = "example.com";
         $q = ['test' => 1];
 
@@ -33,7 +33,7 @@ class HttpClientTest extends TestCase
 
     public function testPostPassesConsumerToken()
     {
-        $res = $this->createMock(Response::class);
+        $res = new Response(200, [], "{}");
         $url = "example.com";
         $body = 'test';
 
@@ -45,5 +45,60 @@ class HttpClientTest extends TestCase
             ->willReturn($res);
 
         $this->SUT->post($url, $body);
+    }
+
+    public function testPatchPassesConsumerToken()
+    {
+        $res = new Response(200, [], "{}");
+        $url = "example.com";
+        $body = 'test';
+
+        $this->token->method("generate")->willReturn("horse");
+        $this->http
+            ->expects($this->once())
+            ->method("request")
+            ->with("PATCH", $url, ['headers' => ['X-Consumer-Token' => 'horse'], 'body' => 'test'])
+            ->willReturn($res);
+
+        $this->SUT->patch($url, $body);
+    }
+
+    public function testGetThrowsExceptionOnBadJsonResponse()
+    {
+        $res = new Response(200, [], "invalid json");
+        $url = "example.com";
+        $q = ['test' => 1];
+        $this->token->method("generate")->willReturn("chicken");
+        $this->http->method("request")->willReturn($res);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->SUT->get($url, $q);
+    }
+
+    public function testPostThrowsExceptionOnBadJsonResponse()
+    {
+        $res = new Response(200, [], "invalid json");
+        $url = "example.com";
+        $body = 'test';
+        $this->token->method("generate")->willReturn("chicken");
+        $this->http->method("request")->willReturn($res);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->SUT->post($url, $body);
+    }
+
+    public function testPatchThrowsExceptionOnBadJsonResponse()
+    {
+        $res = new Response(200, [], "invalid json");
+        $url = "example.com";
+        $body = 'test';
+        $this->token->method("generate")->willReturn("chicken");
+        $this->http->method("request")->willReturn($res);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->SUT->patch($url, $body);
     }
 }

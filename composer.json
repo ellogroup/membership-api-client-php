@@ -1,5 +1,5 @@
 {
-    "name": "diningclubgroup/membership-api-client",
+    "name": "diningclubgroup/membership-api-client-php",
     "description": "Client library for interacting with the DCG membership API",
     "type": "library",
     "homepage": "https://github.com/diningclubgroup/membership-api-client-php",

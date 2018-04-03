@@ -8,4 +8,4 @@ pipelines:
         script:
           - composer -V
           - composer install --ignore-platform-reqs
-          - composer test
+          - ./vendor/bin/phpunit tests/unit

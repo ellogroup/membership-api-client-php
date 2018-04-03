@@ -1,5 +1,10 @@
 # README
 
+## Running tests
+
+    make build
+    make test
+
 ## Usage
 
 ```

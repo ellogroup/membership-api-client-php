@@ -46,8 +46,10 @@ class ClientTest extends TestCase
         $res = $c->membership($membershipId)->cardUsage()->create($usage);
         $res = $c->membership($membershipId)->cardUsage()->fetch();
         $res = $c->membership($membershipId)->cardUsage($cardUsageId)->fetch();
+        $c->membership($membershipId)->cardUsage($cardUsageId)->delete();
         $res = $c->customer()->fetch();
         $res = $c->customer($customerId)->fetch();
+        $c->customer($customerId)->delete();
 
 
 
@@ -56,6 +58,5 @@ class ClientTest extends TestCase
         //$res = $c->membership($membershipId)->cardUsage($cardUsageId)->update();
         //$res = $c->customer()->create();
         //$res = $c->customer($id)->update();
-        //$res = $c->customer($id)->delete();
     }
 }

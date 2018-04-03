@@ -52,4 +52,10 @@ class CardUsage
         );
         return $this->factory->build($res);
     }
+
+    public function delete()
+    {
+        $url = sprintf("/membership/%s/cardUsage/%s", $this->membershipId, $this->id);
+        $this->http->delete($url);
+    }
 }

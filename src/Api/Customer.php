@@ -32,6 +32,12 @@ class Customer
         return $out;
     }
 
+    public function delete()
+    {
+        $url = sprintf("/customer/%s", $this->id);
+        $this->http->delete($url);
+    }
+
     public function setId($id)
     {
         $this->id = $id;

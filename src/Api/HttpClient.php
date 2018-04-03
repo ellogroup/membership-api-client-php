@@ -6,9 +6,22 @@ use GuzzleHttp\Client;
 
 class HttpClient
 {
+    /**
+     * @var Client
+     */
     private $http;
+
+    /**
+     * @var JwtToken
+     */
     private $token;
 
+    /**
+     * HttpClient constructor.
+     *
+     * @param Client $http
+     * @param JwtToken $token
+     */
     public function __construct(
         Client $http,
         JwtToken $token
@@ -59,6 +72,21 @@ class HttpClient
         } catch (\InvalidArgumentException $e) {
             $m = sprintf("failed to decode json response: %s, %s", (string) $res->getBody(), $e->getMessage());
             throw new \InvalidArgumentException($m);
+        } catch (\Exception $e) {
+            $m = sprintf("failed request: %s", $e->getMessage());
+            throw new \RuntimeException($m);
+        }
+    }
+
+    public function delete(string $url)
+    {
+        try {
+            $res = $this->http->request("DELETE", $url, ['headers' => $this->getDefaultHeaders()]);
+            $contentType = $res->getHeader('Content-Type');
+            if (!empty($contentType) && $contentType[0] === 'application/json') {
+                return \GuzzleHttp\json_decode((string) $res->getBody(), true);
+            }
+            return (string) $res->getBody();
         } catch (\Exception $e) {
             $m = sprintf("failed request: %s", $e->getMessage());
             throw new \RuntimeException($m);

@@ -1,0 +1,11 @@
+image:
+  name: diningclub/docker-base-alpine-php7:3.0.0
+  username: $DOCKER_USERNAME
+  password: $DOCKER_PASSWORD
+pipelines:
+  default:
+    - step:
+        script:
+          - composer -V
+          - composer install --ignore-platform-reqs
+          - ./vendor/bin/phpunit tests/unit

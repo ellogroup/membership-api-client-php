@@ -8,6 +8,21 @@ use GuzzleHttp\Psr7\Response;
 
 class HttpClientTest extends TestCase
 {
+    /**
+     * @var HttpClient
+     */
+    private $SUT;
+
+    /**
+     * @var Client|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $http;
+
+    /**
+     * @var JwtToken|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $token;
+
     public function setUp()
     {
         $this->http = $this->createMock(Client::class);
@@ -63,6 +78,21 @@ class HttpClientTest extends TestCase
         $this->SUT->patch($url, $body);
     }
 
+    public function testDeletePassesConsumerToken()
+    {
+        $res = new Response(204, [], "");
+        $url = "example.com";
+
+        $this->token->method("generate")->willReturn("horse");
+        $this->http
+            ->expects($this->once())
+            ->method("request")
+            ->with("DELETE", $url, ['headers' => ['X-Consumer-Token' => 'horse']])
+            ->willReturn($res);
+
+        $this->SUT->delete($url);
+    }
+
     public function testGetThrowsExceptionOnBadJsonResponse()
     {
         $res = new Response(200, [], "invalid json");
@@ -100,5 +130,18 @@ class HttpClientTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->SUT->patch($url, $body);
+    }
+
+    public function testDeleteBubblesExceptions()
+    {
+        $this->http
+            ->expects($this->once())
+            ->method("request")
+            ->willThrowException(new Exception('oops'));
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('failed request: oops');
+
+        $this->SUT->delete('blah');
     }
 }

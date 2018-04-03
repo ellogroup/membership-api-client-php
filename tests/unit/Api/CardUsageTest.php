@@ -8,8 +8,19 @@ use MembershipClient\Model\CardUsage as Usage;
 
 class CardUsageTest extends TestCase
 {
+    /**
+     * @var CardUsage
+     */
+    private $SUT;
+
+    /**
+     * @var HttpClient|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $http;
+
     public function setUp()
     {
+        /** @var CardUsageFactory|PHPUnit_Framework_MockObject_MockObject $factory */
         $factory = $this->createMock(CardUsageFactory::class);
         $this->http = $this->createMock(HttpClient::class);
         $this->SUT = new CardUsage($this->http, $factory);
@@ -54,5 +65,16 @@ class CardUsageTest extends TestCase
 
         $this->SUT->setMembershipId(1);
         $this->SUT->create($usage);
+    }
+
+    public function testDeleteCallsCorrectUrl()
+    {
+        $this->http->expects($this->once())
+            ->method('delete')
+            ->with('/membership/1/cardUsage/2');
+
+        $this->SUT->setMembershipId(1);
+        $this->SUT->setId(2);
+        $this->SUT->delete();
     }
 }

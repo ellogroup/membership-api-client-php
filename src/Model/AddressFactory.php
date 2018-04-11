@@ -27,7 +27,7 @@ class AddressFactory
 
     /**
      * @param array $addresses
-     * @return array
+     * @return Address[]
      */
     public function buildFromList(array $addresses)
     {

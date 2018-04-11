@@ -158,7 +158,7 @@ class Customer
     }
 
     /**
-     * @return array
+     * @return Address[]
      */
     public function getAddresses(): array
     {
@@ -166,7 +166,7 @@ class Customer
     }
 
     /**
-     * @return array
+     * @return Membership[]
      */
     public function getMemberships(): array
     {

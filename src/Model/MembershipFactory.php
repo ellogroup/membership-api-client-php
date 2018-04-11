@@ -24,7 +24,7 @@ class MembershipFactory
 
     /**
      * @param array $memberships
-     * @return array
+     * @return Membership[]
      */
     public function buildFromList(array $memberships)
     {

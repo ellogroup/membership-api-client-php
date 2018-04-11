@@ -1,5 +1,9 @@
 {
-    "name": "dcg/membership-client",
+    "name": "diningclubgroup/membership-api-client-php",
+    "description": "Client library for interacting with the DCG membership API",
+    "type": "library",
+    "homepage": "https://github.com/diningclubgroup/membership-api-client-php",
+    "license": "MIT",
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "lcobucci/jwt": "^3.2"

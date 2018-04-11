@@ -2,7 +2,7 @@
 
 namespace MembershipClient\Model;
 
-class Customer
+class Address
 {
     /**
      * @var string
@@ -27,62 +27,62 @@ class Customer
     /**
      * @var string
      */
-    private $emailAddress;
+    private $companyName;
 
     /**
      * @var string
      */
-    private $phoneNumber;
+    private $addressLine1;
 
     /**
      * @var string
      */
-    private $mobilePhone;
-
-    /**
-     * @var int
-     */
-    private $consumerId;
+    private $addressLine2;
 
     /**
      * @var string
      */
-    private $consumerCustomerId;
+    private $town;
 
     /**
-     * @var array
+     * @var string
      */
-    private $addresses;
+    private $district;
 
     /**
-     * @var array
+     * @var string
      */
-    private $memberships;
+    private $postalCode;
+
+    /**
+     * @var string
+     */
+    private $countryCode;
 
     public function __construct(
         string $id,
         ?string $title,
         ?string $firstName,
         ?string $lastName,
-        ?string $emailAddress,
-        ?string $phoneNumber,
-        ?string $mobilePhone,
-        string $consumerId,
-        string $consumerCustomerId,
-        array $addresses,
-        array $memberships
+        ?string $companyName,
+        ?string $addressLine1,
+        ?string $addressLine2,
+        ?string $town,
+        ?string $district,
+        ?string $postalCode,
+        ?string $countryCode
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->emailAddress = $emailAddress;
-        $this->phoneNumber = $phoneNumber;
-        $this->mobilePhone = $mobilePhone;
-        $this->consumerId = $consumerId;
-        $this->consumerCustomerId = $consumerCustomerId;
-        $this->addresses = $addresses;
-        $this->memberships = $memberships;
+        $this->companyName = $companyName;
+        $this->addressLine1 = $addressLine1;
+        $this->addressLine2 = $addressLine2;
+        $this->town = $town;
+        $this->district = $district;
+        $this->postalCode = $postalCode;
+        $this->countryCode = $countryCode;
     }
 
     /**
@@ -120,56 +120,56 @@ class Customer
     /**
      * @return string
      */
-    public function getEmailAddress(): ?string
+    public function getCompanyName(): ?string
     {
-        return $this->emailAddress;
+        return $this->companyName;
     }
 
     /**
      * @return string
      */
-    public function getPhoneNumber(): ?string
+    public function getAddressLine1(): ?string
     {
-        return $this->phoneNumber;
+        return $this->addressLine1;
     }
 
     /**
      * @return string
      */
-    public function getMobilePhone(): ?string
+    public function getAddressLine2(): ?string
     {
-        return $this->mobilePhone;
-    }
-
-    /**
-     * @return int
-     */
-    public function getConsumerId(): int
-    {
-        return $this->consumerId;
+        return $this->addressLine2;
     }
 
     /**
      * @return string
      */
-    public function getConsumerCustomerId(): string
+    public function getTown(): ?string
     {
-        return $this->consumerCustomerId;
+        return $this->town;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getAddresses(): array
+    public function getDistrict(): ?string
     {
-        return $this->addresses;
+        return $this->district;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getMemberships(): array
+    public function getPostalCode(): ?string
     {
-        return $this->memberships;
+        return $this->postalCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
     }
 }

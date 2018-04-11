@@ -2,10 +2,31 @@
 
 namespace MembershipClient\Model;
 
-use MembershipClient\Model\Customer;
-
 class CustomerFactory
 {
+    /**
+     * @var AddressFactory
+     */
+    private $addressFactory;
+
+    /**
+     * @var MembershipFactory
+     */
+    private $membershipFactory;
+
+    /**
+     * CustomerFactory constructor.
+     *
+     * @param AddressFactory $addressFactory
+     * @param MembershipFactory $membershipFactory
+     */
+    public function __construct(
+        AddressFactory $addressFactory,
+        MembershipFactory $membershipFactory
+    ) {
+        $this->addressFactory = $addressFactory;
+        $this->membershipFactory = $membershipFactory;
+    }
 
     public function build(array $customer)
     {
@@ -16,7 +37,11 @@ class CustomerFactory
             $customer['lastName'],
             $customer['emailAddress'],
             $customer['phoneNumber'],
-            $customer['mobilePhone']
+            $customer['mobilePhone'],
+            $customer['consumerId'],
+            $customer['consumerCustomerId'],
+            $this->addressFactory->buildFromList($customer['addresses']),
+            $this->membershipFactory->buildFromList($customer['memberships'])
         );
     }
 

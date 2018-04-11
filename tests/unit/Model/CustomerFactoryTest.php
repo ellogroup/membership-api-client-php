@@ -3,12 +3,19 @@
 use PHPUnit\Framework\TestCase;
 use MembershipClient\Model\Customer;
 use MembershipClient\Model\CustomerFactory;
+use MembershipClient\Model\AddressFactory;
+use MembershipClient\Model\MembershipFactory;
 
 class CustomerFactoryTest extends TestCase
 {
+    /**
+     * @var CustomerFactory
+     */
+    private $SUT;
+
     public function setUp()
     {
-        $this->SUT = new CustomerFactory();
+        $this->SUT = new CustomerFactory(new AddressFactory(), new MembershipFactory());
     }
 
     public function testBuildReturnsCustomer()
@@ -20,7 +27,11 @@ class CustomerFactoryTest extends TestCase
             'lastName' => 'Z',
             'emailAddress' => 'test@test.com',
             'phoneNumber' => 01234,
-            'mobilePhone' => 01234
+            'mobilePhone' => 01234,
+            'consumerId' => 3,
+            'consumerCustomerId' => 'abcdef',
+            'addresses' => [],
+            'memberships' => [],
         ];
         $expected = new Customer(
             $customer['id'],
@@ -29,7 +40,11 @@ class CustomerFactoryTest extends TestCase
             $customer['lastName'],
             $customer['emailAddress'],
             $customer['phoneNumber'],
-            $customer['mobilePhone']
+            $customer['mobilePhone'],
+            $customer['consumerId'],
+            $customer['consumerCustomerId'],
+            $customer['addresses'],
+            $customer['memberships']
         );
 
         $result = $this->SUT->build($customer);

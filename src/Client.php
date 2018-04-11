@@ -9,9 +9,11 @@ use MembershipClient\Api\CardUsage;
 use MembershipClient\Api\Customer;
 use MembershipClient\Api\HttpClient;
 use MembershipClient\Api\JwtToken;
+use MembershipClient\Model\AddressFactory;
 use MembershipClient\Model\CancellationReasonFactory;
 use MembershipClient\Model\CardUsageFactory;
 use MembershipClient\Model\CustomerFactory;
+use MembershipClient\Model\MembershipFactory;
 
 class Client
 {
@@ -43,7 +45,10 @@ class Client
         return new Client(
             new CancellationReasons($http, new CancellationReasonFactory()),
             new Membership($http, $cardUsage),
-            new Customer($http, new CustomerFactory())
+            new Customer($http, new CustomerFactory(
+                new AddressFactory(),
+                new MembershipFactory()
+            ))
         );
     }
 

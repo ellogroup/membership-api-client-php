@@ -33,13 +33,14 @@ class Client
 
     public static function init(
         string $baseUrl,
-        string $privateKey
+        string $privateKey,
+        int $consumerId = 1 // Have to have 1 as default to keep backwards compatibility with v1.0.0 and v1.0.1
     ) {
         $guzzle = new Guzzle([
             'base_uri' => $baseUrl,
             "verify" => false
         ]);
-        $token = new JwtToken($privateKey, 1);
+        $token = new JwtToken($privateKey, $consumerId);
         $http = new HttpClient($guzzle, $token);
         $cardUsage = new CardUsage($http, new CardUsageFactory());
         return new Client(

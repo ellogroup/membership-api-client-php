@@ -10,7 +10,8 @@
 ```
 $c = Client::init(
     "https://membership.dcg.local",
-    "file://jwtRS256.key"
+    "file://jwtRS256.key",
+    42 // Consumer ID
 );
 
 // list cancellation reasons

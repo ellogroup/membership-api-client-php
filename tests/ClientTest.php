@@ -28,7 +28,8 @@ class ClientTest extends TestCase
 
         $c = Client::init(
             "https://membership.dcg.local",
-            "file://jwtRS256.key"
+            "file://jwtRS256.key",
+            1
         );
 
         $cancellationDate = new \DateTimeImmutable();

@@ -161,8 +161,7 @@ class HttpClientTest extends TestCase
             ->expects($this->once())
             ->method("request")
             ->with("GET", $url, ['headers' => [
-                'X-Other-Token' => 'my-other-token-type',
-                'X-Consumer-Token' => null,
+                'X-Other-Token' => 'my-other-token-type'
             ], 'query' => ['test' => 1]])
             ->willReturn($res);
 

@@ -2,7 +2,6 @@
 
 namespace Test;
 
-use MembershipClient\Api\JwtToken;
 use PHPUnit\Framework\TestCase;
 use MembershipClient\Client;
 

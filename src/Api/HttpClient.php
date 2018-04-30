@@ -104,8 +104,11 @@ class HttpClient
     private function getHeaders()
     {
         $token = $this->token->generate();
-        return array_merge([
+        $headers =  array_merge([
             'X-Consumer-Token' => $token
         ], $this->additionalHeaders);
+        return array_filter($headers, function ($elem) {
+            return $elem !== null;
+        });
     }
 }

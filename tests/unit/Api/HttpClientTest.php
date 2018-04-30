@@ -144,4 +144,28 @@ class HttpClientTest extends TestCase
 
         $this->SUT->delete('blah');
     }
+
+    public function testGetWithAdditionalHeaders()
+    {
+        $client = new HttpClient($this->http, $this->token, [
+            'X-Other-Token' => 'my-other-token-type',
+            'X-Consumer-Token' => null
+        ]);
+
+        $res = new Response(200, [], "{}");
+        $url = "example.com";
+        $q = ['test' => 1];
+
+        $this->token->expects($this->once())->method("generate")->willReturn('chicken');
+        $this->http
+            ->expects($this->once())
+            ->method("request")
+            ->with("GET", $url, ['headers' => [
+                'X-Other-Token' => 'my-other-token-type',
+                'X-Consumer-Token' => null,
+            ], 'query' => ['test' => 1]])
+            ->willReturn($res);
+
+        $client->get($url, $q);
+    }
 }

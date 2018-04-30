@@ -2,6 +2,7 @@
 
 namespace Test;
 
+use MembershipClient\Api\JwtToken;
 use PHPUnit\Framework\TestCase;
 use MembershipClient\Client;
 
@@ -36,7 +37,7 @@ class ClientTest extends TestCase
         $cancelledFrom = new \DateTimeImmutable();
         $cancellationReasonId = "n70zqPXBaxA9RdJ4";
         $cancellationMethod = "Phone";
-        $res = $c->membership($membershipId)->cancel(
+        $c->membership($membershipId)->cancel(
             $cancellationDate,
             $cancelledFrom,
             $cancellationReasonId,

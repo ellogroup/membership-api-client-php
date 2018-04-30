@@ -17,17 +17,25 @@ class HttpClient
     private $token;
 
     /**
+     * @var array
+     */
+    private $additionalHeaders;
+
+    /**
      * HttpClient constructor.
      *
      * @param Client $http
      * @param JwtToken $token
+     * @param array $additionalHeaders
      */
     public function __construct(
         Client $http,
-        JwtToken $token
+        JwtToken $token,
+        array $additionalHeaders = []
     ) {
         $this->http = $http;
         $this->token = $token;
+        $this->additionalHeaders = $additionalHeaders;
     }
 
     public function get(
@@ -35,7 +43,7 @@ class HttpClient
         array $query = []
     ) {
         try {
-            $res = $this->http->request("GET", $url, ['headers' => $this->getDefaultHeaders(), 'query' => $query]);
+            $res = $this->http->request("GET", $url, ['headers' => $this->getHeaders(), 'query' => $query]);
             return \GuzzleHttp\json_decode((string) $res->getBody(), true);
         } catch (\InvalidArgumentException $e) {
             $m = sprintf("failed to decode json response: %s", $e->getMessage());
@@ -51,7 +59,7 @@ class HttpClient
         string $body
     ) {
         try {
-            $res = $this->http->request("POST", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
+            $res = $this->http->request("POST", $url, ['headers' => $this->getHeaders(), 'body' => $body]);
             return \GuzzleHttp\json_decode((string) $res->getBody(), true);
         } catch (\InvalidArgumentException $e) {
             $m = sprintf("failed to decode json response: %s", $e->getMessage());
@@ -67,7 +75,7 @@ class HttpClient
         string $body
     ) {
         try {
-            $res = $this->http->request("PATCH", $url, ['headers' => $this->getDefaultHeaders(), 'body' => $body]);
+            $res = $this->http->request("PATCH", $url, ['headers' => $this->getHeaders(), 'body' => $body]);
             return \GuzzleHttp\json_decode((string) $res->getBody(), true);
         } catch (\InvalidArgumentException $e) {
             $m = sprintf("failed to decode json response: %s", $e->getMessage());
@@ -81,7 +89,7 @@ class HttpClient
     public function delete(string $url)
     {
         try {
-            $res = $this->http->request("DELETE", $url, ['headers' => $this->getDefaultHeaders()]);
+            $res = $this->http->request("DELETE", $url, ['headers' => $this->getHeaders()]);
             $contentType = $res->getHeader('Content-Type');
             if (!empty($contentType) && $contentType[0] === 'application/json') {
                 return \GuzzleHttp\json_decode((string) $res->getBody(), true);
@@ -93,11 +101,11 @@ class HttpClient
         }
     }
 
-    private function getDefaultHeaders()
+    private function getHeaders()
     {
         $token = $this->token->generate();
-        return [
+        return array_merge([
             'X-Consumer-Token' => $token
-        ];
+        ], $this->additionalHeaders);
     }
 }
